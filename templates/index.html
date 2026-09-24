@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChronoLit AI — AI-Powered Timeline & Literature Intelligence</title>
+  <meta name="description"
+    content="ChronoLit AI uses intelligent NLP and unsupervised clustering to reconstruct chronological event timelines from literature and historical archives.">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+        </div>
+        <span class="brand-title">ChronoLit <span class="brand-highlight">AI</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#about" class="nav-link">About</a>
+        <button class="nav-link btn-link" onclick="openContactModal()">Contact</button>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn-ghost" onclick="toggleHistoryDrawer()" title="View SQLite Saved Timelines">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Saved</span>
+        </button>
+        <button class="btn-primary" onclick="scrollToSearch()">Get Started</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-body" id="home">
+
+    <section class="hero-container">
+      <div class="hero-content">
+
+        <div class="hero-text-col">
+          <div class="hero-tag">
+            <span class="tag-sparkle">✦</span>
+            <span>AI-POWERED TIMELINE PLATFORM</span>
+          </div>
+
+          <h1 class="hero-headline">
+            Understand Your Text. <span class="text-accent">Reconstruct Your</span> <span
+              class="text-accent">Timeline.</span>
+          </h1>
+
+          <p class="hero-description">
+            ChronoLit AI uses intelligent NLP and unsupervised clustering to extract milestone events, analyze temporal
+            anchors, and help you explore historical literature effortlessly.
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="btn-primary btn-large" onclick="scrollToSearch()">
+              <span>Start Analyzing</span>
+              <span class="btn-arrow">→</span>
+            </button>
+            <a href="#features" class="btn-secondary btn-large">Explore Features</a>
+          </div>
+
+          <div class="hero-stats-row">
+            <div class="hero-stat-item">
+              <span class="stat-number">AI</span>
+              <span class="stat-caption">Powered Analysis</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="stat-number">24/7</span>
+              <span class="stat-caption">Timeline Tracking</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="stat-number">100%</span>
+              <span class="stat-caption">Unsupervised ML</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-preview-col">
+          <div class="gauge-card">
+
+            <div class="gauge-pill">
+              <span class="pill-fire">🔥</span>
+              <div class="pill-text-wrap">
+                <span class="pill-val" id="previewMilestoneCount">1,840</span>
+                <span class="pill-sub">Milestones Today</span>
+              </div>
+            </div>
+
+            <div class="gauge-circle-container">
+              <svg class="gauge-svg" viewBox="0 0 200 200">
+                <circle class="gauge-track" cx="100" cy="100" r="76"></circle>
+                <circle class="gauge-progress" id="gaugeProgressArc" cx="100" cy="100" r="76" stroke-dasharray="477.5"
+                  stroke-dashoffset="133.7"></circle>
+              </svg>
+              <div class="gauge-center-content">
+                <span class="gauge-label">Daily</span>
+                <span class="gauge-value" id="gaugeValue">72%</span>
+                <span class="gauge-status">Goal Complete</span>
+              </div>
+            </div>
+
+            <div class="gauge-metrics-row">
+              <div class="gauge-metric">
+                <span class="gm-label">Events</span>
+                <span class="gm-val" id="previewEventsVal">68</span>
+              </div>
+              <div class="gauge-divider"></div>
+              <div class="gauge-metric">
+                <span class="gm-label">Clusters</span>
+                <span class="gm-val" id="previewClustersVal">8</span>
+              </div>
+              <div class="gauge-divider"></div>
+              <div class="gauge-metric">
+                <span class="gm-label">Accuracy</span>
+                <span class="gm-val" id="previewConfVal">94%</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="search-section" id="searchSection">
+      <div class="search-card-wrapper">
+        <div class="search-card-header">
+          <h2>Generate Interactive Timeline</h2>
+          <p>Enter any historical figure, literary classic, or pivotal historical era to reconstruct its chronological
+            milestone events.</p>
+        </div>
+
+        <div class="search-bar-box">
+          <div class="search-input-field">
+            <svg class="search-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="topic"
+              placeholder="e.g. Mahatma Gandhi, Albert Einstein, Jane Austen, French Revolution..."
+              autocomplete="off" />
+            <button id="clearBtn" class="search-clear-btn" onclick="clearInput()" title="Clear">✕</button>
+          </div>
+          <button id="generateBtn" class="btn-primary search-action-btn" onclick="generateTimeline()">
+            <span class="btn-text">Start Analyzing</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+
+        <div class="quick-chips">
+          <span class="chips-label">Popular Topics:</span>
+          <button class="chip" onclick="quickSelect('Mahatma Gandhi')">Mahatma Gandhi</button>
+          <button class="chip" onclick="quickSelect('Albert Einstein')">Albert Einstein</button>
+          <button class="chip" onclick="quickSelect('Marie Curie')">Marie Curie</button>
+          <button class="chip" onclick="quickSelect('Jane Austen')">Jane Austen</button>
+          <button class="chip" onclick="quickSelect('French Revolution')">French Revolution</button>
+          <button class="chip" onclick="quickSelect('Alan Turing')">Alan Turing</button>
+        </div>
+
+        <div id="statusContainer" class="status-container hidden">
+          <div class="loader-spinner"></div>
+          <p id="status" class="status-text"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultsSection" class="results-section hidden">
+
+      <div class="stats-bar-card">
+        <div class="topic-meta">
+          <div class="topic-title-row">
+            <span class="active-badge">Timeline Active</span>
+            <h2 id="activeTopicTitle" class="active-topic">Topic Name</h2>
+          </div>
+          <a id="sourceLink" href="#" target="_blank" class="source-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span id="sourceLinkText">View Verified Wikipedia Source</span>
+          </a>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-value" id="totalEventsCount">0</span>
+            <span class="metric-label">Extracted Events</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value" id="datedEventsCount">0</span>
+            <span class="metric-label">Dated Milestones</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value" id="clustersCount">0</span>
+            <span class="metric-label">Semantic Clusters</span>
+          </div>
+        </div>
+
+        <div class="export-actions">
+          <button class="btn-sm btn-outline" onclick="exportTimelineData('csv')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export CSV
+          </button>
+          <button class="btn-sm btn-outline" onclick="exportTimelineData('json')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+            Export JSON
+          </button>
+        </div>
+      </div>
+
+      <div class="content-grid">
+
+
+        <aside class="sidebar-panel">
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="8" y1="6" x2="21" y2="6" />
+                  <line x1="8" y1="12" x2="21" y2="12" />
+                  <line x1="8" y1="18" x2="21" y2="18" />
+                  <line x1="3" y1="6" x2="3.01" y2="6" />
+                  <line x1="3" y1="12" x2="3.01" y2="12" />
+                  <line x1="3" y1="18" x2="3.01" y2="18" />
+                </svg>
+                Chronological Summary
+              </h3>
+              <button class="copy-btn" onclick="copySummary()" title="Copy Summary to Clipboard">Copy</button>
+            </div>
+            <div id="summary"></div>
+          </div>
+
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                Semantic Cluster Filter
+              </h3>
+            </div>
+            <p class="filter-hint">Filter events by unsupervised DBSCAN theme clusters:</p>
+            <div id="clusterFilterChips" class="cluster-chips"></div>
+          </div>
+        </aside>
+
+
+        <section class="timeline-container">
+          <div class="timeline-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              Extracted Chronological Timeline
+            </h3>
+            <span id="filteredEventCount" class="badge-filter">Showing all events</span>
+          </div>
+
+          <div id="timeline" class="timeline-spine">
+
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+
+    <section class="features-section" id="features">
+      <div class="section-header">
+        <div class="section-tag">CAPABILITIES</div>
+        <h2>Engineered for Deep Literature & Historical Analysis</h2>
+        <p>Harnessing unsupervised machine learning and linguistic parsing to turn dense text into structured
+          intelligence.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <h3>Temporal Anchor Extraction</h3>
+          <p>Identifies historical calendar years, ranges, and event anchors across sentences using high-precision regex
+            and spaCy entity recognition.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          <h3>DBSCAN Semantic Clustering</h3>
+          <p>Uses Sentence-Transformers (all-MiniLM-L6-v2) embeddings and density-based clustering to automatically
+            discover themes without manual labeling.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </div>
+          <h3>Extractive Summarization</h3>
+          <p>Selects the most representative milestone per semantic cluster, composing a clear chronological overview of
+            the subject's life or history.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </div>
+          <h3>Persistent Storage & Export</h3>
+          <p>All timelines are indexed into local SQLite databases for instant retrieval and can be exported as
+            structured CSV or JSON formats.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="about-section" id="about">
+      <div class="about-card">
+        <div class="about-text">
+          <div class="section-tag">ARCHITECTURE</div>
+          <h2>Built for Researchers, Historians & Literature Enthusiasts</h2>
+          <p>
+            ChronoLit AI combines classical NLP pipelines with modern dense semantic vector spaces. Starting with raw,
+            unstructured texts, our system executes sentence tokenization, historical milestone verb filtering, temporal
+            anchoring, and DBSCAN density clustering to construct unified chronological narratives.
+          </p>
+          <div class="tech-stack-pills">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Flask</span>
+            <span class="tech-pill">spaCy NLP</span>
+            <span class="tech-pill">Sentence-Transformers</span>
+            <span class="tech-pill">DBSCAN</span>
+            <span class="tech-pill">SQLite</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <div id="historyDrawer" class="drawer-backdrop hidden" onclick="closeHistoryOnBackdrop(event)">
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <div>
+          <h3>Saved Timelines</h3>
+          <span class="drawer-subtitle">SQLite Historical Database</span>
+        </div>
+        <button class="drawer-close-btn" onclick="toggleHistoryDrawer()">✕</button>
+      </div>
+      <div id="historyList" class="history-list">
+        <p class="empty-state">No saved searches found yet.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="contactModal" class="drawer-backdrop hidden" onclick="closeContactOnBackdrop(event)">
+    <div class="contact-modal-card">
+      <div class="modal-header">
+        <h3>Contact & Feedback</h3>
+        <button class="drawer-close-btn" onclick="closeContactModal()">✕</button>
+      </div>
+      <p class="modal-sub">Have a suggestion or research inquiry? We'd love to hear from you.</p>
+      <form onsubmit="handleContactSubmit(event)" class="contact-form">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="e.g. Marie Curie" required />
+        </div>
+        <div class="form-group">
+          <label>Your Email</label>
+          <input type="email" placeholder="e.g. marie@research.org" required />
+        </div>
+        <div class="form-group">
+          <label>Message / Topic Suggestion</label>
+          <textarea rows="3" placeholder="Tell us what you'd like to explore..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="brand-icon small">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+        </div>
+        <span class="brand-title">ChronoLit <span class="brand-highlight">AI</span></span>
+      </div>
+      <p class="footer-text">AI-Powered Literary & Historical Timeline Extraction Platform.</p>
+      <small class="footer-sub">© 2026 ChronoLit AI • Powered by spaCy & Sentence-Transformers</small>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+
+</html>
